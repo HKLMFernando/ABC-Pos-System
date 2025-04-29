@@ -84,7 +84,51 @@
 
 </section>
 
-<!--                             Item -->
+                             <!--                             Item -->
+ <section id="Items">
+       <h1> Item Form</h1>
+           <div class="card" style="width: 75rem;">
+                  <form class="row g-3">
+                       <div class="col-md-6">
+                            <label for="itemCode" class="form-label">Item Id</label>
+                            <input type="text" class="form-control" id="itemCode">
+                       </div>
+                       <div class="col-md-6">
+                             <label for="inputItemName" class="form-label">Item Name</label>
+                             <input type="text" class="form-control" id="inputItemName">
+                       </div>
+
+                        <div class="col-md-6">
+                              <label for="inputQtyOnHand" class="form-label">Quantity on Hand</label>
+                              <input type="email" class="form-control" id="inputQtyOnHand">
+                        </div>
+
+                        <div class="col-md-6">
+                              <label for="pricePerUnit" class="form-label">Price per unit</label>
+                              <input type="text" class="form-control" id="pricePerUnit">
+                        </div>
+
+                         <button type="button" class="btn btn-primary">Update</button>
+                         <button type="button" class="btn btn-secondary">Reset</button>
+                         <button type="button" class="btn btn-success">Save</button>
+                         <button type="button" class="btn btn-danger">Delete</button>
+                  </form>
+
+           </div>
+
+            <table class="table">
+                 <thead>
+                       <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Item code</th>
+                          <th scope="col">Item Name</th>
+                          <th scope="col">Qty on hand</th>
+                          <th scope="col">price per unit</th>
+                       </tr>
+                 </thead>
+                 <tbody id="item-tbody"></tbody>
+            </table>
+ </section>
 
 
 
