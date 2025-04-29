@@ -27,6 +27,9 @@
                 <button id="orders_nav" class="nav-item btn btn-link">
                     Orders
                 </button>
+                <button id="ordersDetails_nav" class="nav-item btn btn-link">
+                    Orders
+                </button>
             </ul>
         </div>
     </div>
@@ -204,6 +207,7 @@
                                      $("#Items").css("display", "block");
                                      $("#Customer").css("display", "none");
                                      $("#Orders").css("display", "none");
+                                     $("#Order_details").css("display", "none");
 
 
                                  })
@@ -212,12 +216,23 @@
                                      $("#Customer").css("display", "block");
                                      $("#Items").css("display", "none");
                                      $("#Orders").css("display", "none");
+                                     $("#Order_details").css("display", "none");
                                  })
 
                                  $("#orders_nav").on('click', function () {
                                      $("#Orders").css("display", "block");
                                      $("#Customer").css("display", "none");
                                      $("#Items").css("display", "none");
+                                     $("#Order_details").css("display", "none");
+
+                                 })
+
+                                 $("#ordersDetails_nav").on('click', function () {
+                                     $("#Order_details").css("display", "block");
+                                     $("#Orders").css("display", "none");
+                                     $("#Customer").css("display", "none");
+                                     $("#Items").css("display", "none");
+
 
                                  })
 
