@@ -24,6 +24,9 @@
                 <button id="items_nav" class="nav-item btn btn-link">
                     Items
                 </button>
+                <button id="orders_nav" class="nav-item btn btn-link">
+                    Orders
+                </button>
             </ul>
         </div>
     </div>
@@ -163,6 +166,26 @@
 
   </section>
 
+<!--                             orders Details-->
+<section id="Order_details">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Customer Name</th>
+            <th scope="col">Item Code</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">price per unit</th>
+            <th scope="col">Total</th>
+        </tr>
+        </thead>
+        <tbody id="Orders-tbody">
+        </tbody>
+    </table>
+
+</section>
+
+
 
 
 
@@ -185,6 +208,13 @@
                                      $("#Customer").css("display", "block");
                                      $("#Items").css("display", "none");
                                      $("#Orders").css("display", "none");
+                                 })
+
+                                 $("#orders_nav").on('click', function () {
+                                     $("#Orders").css("display", "block");
+                                     $("#Customer").css("display", "none");
+                                     $("#Items").css("display", "none");
+
                                  })
 
                              </script>
