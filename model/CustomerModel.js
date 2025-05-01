@@ -1,9 +1,9 @@
 export default class CustomerModel {
-    constructor(fname, lname, address,email,contact) {
-        this.firstname = fname;
-        this.lastname = lname;
+    constructor(firstname, lastname, address,email,contact) {
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
-        this.email =email;
+        this.email = email;
         this.contact = contact;
     }
 }
