@@ -1,6 +1,6 @@
 export default class ItemModel {
-    constructor(ItemId, ItemName, QtyOnHand,PricePerUnit) {
-        this.ItemId = ItemId;
+    constructor(ItemCode, ItemName, QtyOnHand,PricePerUnit) {
+        this.ItemCode = ItemCode;
         this.ItemName = ItemName;
         this.QtyOnHand =QtyOnHand;
         this.PricePerUnit = PricePerUnit;
