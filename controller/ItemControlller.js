@@ -1,7 +1,6 @@
 import {Item_db} from "../db/DB.js";
 
-import ItemModel from "../model/CustomerModel.js";
-
+import ItemModel from "../model/ItemModel.js";
 
 
 function loadItem() {
@@ -53,7 +52,7 @@ $('#item_save').on('click', function(){
         //     address: address
         // };
 
-        let Item_data = new ItemModel(ItemCode ,ItemName ,QtyOnHand ,PricePerUnit);
+        let Item_data = new ItemModel(ItemCode,ItemName,QtyOnHand,PricePerUnit);
 
         Item_db.push(Item_data);
 
