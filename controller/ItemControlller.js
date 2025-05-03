@@ -28,7 +28,7 @@ function loadItem() {
 }
 
 // save
-$('#itemSave').on('click', function(){
+$('#item_save').on('click', function(){
     // let fname = document.getElementById('fname').value;
     let ItemCode = $('#ItemCode').val();
     let ItemName = $('#ItemName').val();
@@ -88,3 +88,17 @@ $("#item-tbody").on('click', 'tr', function(){
     $("#QtyOnHand").val(QtyOnHand);
     $("#PricePerUnit").val(PricePerUnit);
 });
+
+function clearForm() {
+    $('#ItemCode').val('');
+    $('#ItemName').val('');
+    $('#QtyOnHand').val('');
+    $('#PricePerUnit').val('');
+    // // Reset edit mode
+    // isEditMode = false;
+    // editIndex = -1;
+    // // Change button text back to "Save"
+    // $('#customer_save').text('Save');
+}
+
+
