@@ -72,3 +72,19 @@ $('#itemSave').on('click', function(){
     }
 });
 
+$("#item-tbody").on('click', 'tr', function(){
+    let idx = $(this).index();
+    console.log(idx);
+    let obj = Item_db[idx];
+    console.log(obj);
+
+    let ItemCode = obj.ItemCode;
+    let ItemName = obj.ItemName;
+    let QtyOnHand = obj.QtyOnHand;
+    let PricePerUnit = obj.PricePerUnit;
+
+    $("#ItemCode").val(ItemCode);
+    $("#ItemName").val(ItemName);
+    $("#QtyOnHand").val(QtyOnHand);
+    $("#PricePerUnit").val(PricePerUnit);
+});
