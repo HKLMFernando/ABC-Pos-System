@@ -68,6 +68,7 @@ $('#customer_save').on('click', function(){
             icon: "success",
             draggable: true
         });
+        clearForm();
 
     }
 });
@@ -90,4 +91,16 @@ $("#customer-tbody").on('click', 'tr', function(){
     $("#email").val(email);
     $("#contact").val(contact);
 });
+function clearForm() {
+    $('#firstName').val('');
+    $('#lastName').val('');
+    $('#address').val('');
+    $('#email').val('');
+    $('#contact').val('');
+    // // Reset edit mode
+    // isEditMode = false;
+    // editIndex = -1;
+    // // Change button text back to "Save"
+    // $('#customer_save').text('Save');
+}
 
