@@ -93,16 +93,16 @@ function clearForm() {
 /*-----------------------Table Onclick Action-------------------------------------*/
 $("#customer-tbody").on('click', 'tr', function(){
     let idx = $(this).index();
-    let obj = customer_db[idx];
+    let obj = Customer_db[idx];
 
-    let customerID = obj.customerID;
+    let customerId = obj.customerId;
     let firstname = obj.firstname;
     let lastname = obj.lastname;
     let address = obj.address;
     let email = obj.email;
     let contact = obj.contact;
 
-    $("#customerId").val(customerID);
+    $("#customerId").val(customerId);
     $("#firstName").val(firstname);
     $("#lastName").val(lastname);
     $("#address").val(address);
@@ -110,4 +110,47 @@ $("#customer-tbody").on('click', 'tr', function(){
     $("#contact").val(contact);
 
 });
+/*---------------Update Customer Details-------------------------------*/
+$('#customer_update').on('click', function () {
+    let customerId = $('#customerId').val();
+    let firstname = $('#firstName').val();
+    let lastname =$('#lastName').val();
+    let address = $('#address').val();
+    let email = $('#email').val();
+    let contact = $('#contact').val();
 
+    if (customerId === '' || firstname === '' || lastname === '' || address === '' || email === '' || contact === '') {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Select data to update!",
+        });
+        return;
+    }
+
+    /*Find index of customer by ID*/
+    const index = Customer_db.findIndex(c => c.customerId === customerId);
+
+    if (index !== -1) {
+        Customer_db[index].firstname = firstname;
+        Customer_db[index].lastname = lastname;
+        Customer_db[index].address = address;
+        Customer_db[index].email = email;
+        Customer_db[index].contact = contact;
+
+        loadCustomers();
+        clearForm();
+
+        Swal.fire({
+            title: "Updated Successfully!",
+            icon: "success",
+            draggable: true
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Not Found",
+            text: "Customer with ID " + customerId+ " does not exist.",
+        });
+    }
+});
