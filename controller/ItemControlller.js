@@ -185,4 +185,8 @@ $('#item_delete').on('click', function () {
     });
 });
 
+$('#item_reset').on('click',function () {
+    clearForm();
+})
+
 
