@@ -2,43 +2,58 @@ import {Customer_db} from "../db/DB.js";
 
 import CustomerModel from "../model/CustomerModel.js";
 
-// load student records
-function loadCustomer() {
+
+
+
+/*---------------------Load Customer ID When The Page is Loading-------------------*/
+$(document).ready(function() {
+    $('#customerId').val(generateCustomerID());
+    loadCustomers();
+});
+
+
+
+/*--------------------------Generate next Customer Id----------------------------*/
+function generateCustomerID() {
+    if (Customer_db.length === 0) {
+        return "C001";
+    }
+    // Get the last customer ID (assuming last added is at the end)
+    let lastId = Customer_db[Customer_db.length - 1].customerId;
+    let numberPart = parseInt(lastId.substring(1));
+    let newId = numberPart + 1;
+    return "C" + newId.toString().padStart(3, '0');
+}
+/*-----------------------Load Table Data--------------------------------------------*/
+function loadCustomers() {
     $('#customer-tbody').empty();
-    Customer_db.map((item, index) => {
-        let firstname = item.firstname;
-        let lastname = item.lastname;
-        let address = item.address;
-        let email = item.email;
-        let contact = item.contact;
+    Customer_db.map((customer,index)=>{
+        let customerId = customer.customerId;
+        let firstname= customer.firstname;
+        let lastname = customer.lastname;
+        let address = customer.address;
+        let email = customer.email;
+        let contact = customer.contact;
 
 
-        let data = `<tr>
-                            <td>${index + 1}</td>
+
+        let  data = `<tr>
+                            <td>${customerId}</td>
                             <td>${firstname}</td>
                             <td>${lastname}</td>
                             <td>${address}</td>
                             <td>${email}</td>
                             <td>${contact}</td>
                         </tr>`
-
         $('#customer-tbody').append(data);
+
     })
 }
-function generateCustomerID() {
-    if (customer_db.length === 0) {
-        return "C001";
-    }
-    // Get the last customer ID (assuming last added is at the end)
-    let lastId = customer_db[customer_db.length - 1].customerID;
-    let numberPart = parseInt(lastId.substring(1));
-    let newId = numberPart + 1;
-    return "C" + newId.toString().padStart(3, '0');
-}
 
-// save
-$('#customer_save').on('click', function(){
-    // let fname = document.getElementById('fname').value;
+/*---------------------------Save Customer----------------------------------------*/
+$('#customer_save').on('click',function () {
+    let customerID = generateCustomerID()
+    $('#customerId').val(customerID);
     let firstname = $('#firstName').val();
     let lastname = $('#lastName').val();
     let address = $('#address').val();
@@ -46,71 +61,53 @@ $('#customer_save').on('click', function(){
     let contact = $('#contact').val();
 
     if(firstname === '' || lastname === '' || address === '' || email === '' || contact === '') {
-        // alert("Invalid inputs!");
-
         Swal.fire({
-            title: 'Error!',
-            text: 'Invalid Inputs',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        })
-    } else {
-
-
-        // let student_data = {
-        //     fname: fname,
-        //     lname: lname,
-        //     address: address
-        // };
-
-        let Customer_data = new CustomerModel(firstname, lastname, address,email,contact);
-
-        Customer_db.push(Customer_data);
-
-        console.log(Customer_data);
-
-        loadCustomer();
-
-        // .push(), .pop(), .shift(), unshift()
-
+            icon: "error",
+            title: "Invalid Input",
+            text: "Please enter valid customer details.",
+        });
+    }else {
+        let customer_data = new  CustomerModel (customerID,firstname,lastname,address,email,contact);
+        Customer_db.push(customer_data);
+        loadCustomers();
         Swal.fire({
-            title: "Added Successfully!",
+            title: "Data Saved Successfully!",
             icon: "success",
             draggable: true
         });
         clearForm();
-
     }
 });
+/*---------------------------Clear data in the form--------------------------------------------*/
+function clearForm() {
+    $('#customerId').val(generateCustomerID());
+    $('#firstName').val('');
+    $('#lastName').val('');
+    $('#address').val('');
+    $('#email').val('');
+    $('#contact').val('');
 
+}
+
+
+/*-----------------------Table Onclick Action-------------------------------------*/
 $("#customer-tbody").on('click', 'tr', function(){
     let idx = $(this).index();
-    console.log(idx);
-    let obj = Customer_db[idx];
-    console.log(obj);
+    let obj = customer_db[idx];
 
+    let customerID = obj.customerID;
     let firstname = obj.firstname;
     let lastname = obj.lastname;
     let address = obj.address;
     let email = obj.email;
     let contact = obj.contact;
 
+    $("#customerId").val(customerID);
     $("#firstName").val(firstname);
     $("#lastName").val(lastname);
     $("#address").val(address);
     $("#email").val(email);
     $("#contact").val(contact);
+
 });
-function clearForm() {
-    $('#firstName').val('');
-    $('#lastName').val('');
-    $('#address').val('');
-    $('#email').val('');
-    $('#contact').val('');
-    // // Reset edit mode
-    // isEditMode = false;
-    // editIndex = -1;
-    // // Change button text back to "Save"
-    // $('#customer_save').text('Save');
-}
 
