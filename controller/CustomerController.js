@@ -198,7 +198,9 @@ $('#customer_delete').on('click', function () {
     });
 });
 
-
+$('#customer_reset').on('click',function () {
+    clearForm();
+})
 
 
 
