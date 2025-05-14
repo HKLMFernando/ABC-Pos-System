@@ -141,4 +141,48 @@ $('#item_update').on('click', function () {
     }
 });
 
+// -------------------------Delete Item--------------------------
+$('#item_delete').on('click', function () {
+    let ItemCode = $('#ItemCode').val();
+
+    if (ItemCode === '') {
+        Swal.fire({
+            icon: "warning",
+            title: "No ID",
+            text: "Please select a Item to delete.",
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const index = Item_db.findIndex(c => c.ItemCode === ItemCode);
+            if (index !== -1) {
+                Item_db.splice(index, 1); // Remove from array
+                loadItem();
+                clearForm();
+                Swal.fire(
+                    "Deleted!",
+                    "Item has been deleted.",
+                    "success"
+                );
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Not Found",
+                    text: "Item with ID " +ItemCode + " does not exist.",
+                });
+            }
+        }
+    });
+});
+
 
