@@ -157,36 +157,73 @@
 
 <!--                             orders-->
  <section id="Orders">
-     <h1>Orders form</h1>
-      <div class="card">
-           <form class="row g-3">
-              <div class="col-md-6">
-                    <label for="custName" class="form-label">CustomerName</label>
-                    <input type="text" class="form-control" id="custName">
-              </div>
-              <div class="col-md-6">
-                    <label for="itemId" class="form-label">ItemCode</label>
-                    <input type="text" class="form-control" id="itemId">
-              </div>
+     <!-- Section Title -->
+     <div class="d-flex align-items-center mb-4">
+         <h1 class="mb-0">Order Management</h1>
+     </div>
 
-              <div class="col-md-6">
-                     <label for="inputQty" class="form-label">Quantity</label>
-                     <input type="email" class="form-control" id="inputQty">
-              </div>
+     <!-- Row for Form 1 and 2 side by side -->
+     <div class="row g-4 mb-4 d-flex align-items-stretch ">
+         <!-- Customer Search Form -->
+         <div class="col-md-6">
+             <div class="card shadow h-100">
+                 <div class="card-header bg-info text-white">
+                     <h5 class="mb-0">1. Search or Add Customer</h5>
+                 </div>
+                 <div class="card-body">
+                     <form id="customerSearchForm">
+                         <label class="form-label fw-bold">Customer ID</label>
+                         <div class="input-group mb-3">
+                             <span class="input-group-text"><i class="bi bi-search"></i></span>
+                             <input type="text" class="form-control" id="searchCustomerInput" placeholder="Enter ID">
+                         </div>
+                         <div class="d-flex justify-content-end gap-3 mb-3">
+                             <button id="searchCustomer" class="btn btn-primary" type="button" >Search</button>
+                             <button id="resetCustomerDetails" class="btn btn-outline-secondary" type="button">Reset</button>
+                         </div>
+                         <div id="loadCustomerIdInOrder mb-3">
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">Customer id</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadCid" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">First name</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadFirstName" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">Last name</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadLastName" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">Address</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadAddress" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">Email</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadEmail" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                             <div class="row mb-2">
+                                 <label class="col-sm-4 col-form-label">Contact</label>
+                                 <div class="col-sm-8">
+                                     <input id="loadContact" type="text" class="form-control" readonly>
+                                 </div>
+                             </div>
+                         </div>
+                     </form>
+                 </div>
+             </div>
+         </div>
 
-              <div class="col-md-6">
-                      <label for="priceUnit" class="form-label">Price per unit</label>
-                      <input type="text" class="form-control" id="priceUnit">
-              </div>
-              <div class="col-md-6">
-                      <label for="total" class="form-label">Price per unit</label>
-                      <input type="text" class="form-control" id="total">
-              </div>
-
-              <button type="button" class="btn btn-primary">Add to Cart</button>
-
-           </form>
-      </div>
 
   </section>
 
