@@ -80,3 +80,18 @@ function searchItem() {
     }
 }
 
+function resetItem() {
+    $('#itemIDInput').val('');
+    $('#loadItemId').val('');
+    $('#loadItemName').val('');
+    $('#loadItemQty').val('');
+    $('#loadItemPrice').val('');
+    $('#quantity').val('');
+}
+$('#resetItemDetails').on('click',function () {
+    resetItem();
+})
+
+// add to Cart function
+
+
