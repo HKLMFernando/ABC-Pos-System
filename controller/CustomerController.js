@@ -154,3 +154,4 @@ $('#customer_update').on('click', function () {
         });
     }
 });
+// -------------------------Delete Customer--------------------------
