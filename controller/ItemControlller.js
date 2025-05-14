@@ -1,4 +1,4 @@
-import {Customer_db, Item_db} from "../db/DB.js";
+import { Item_db} from "../db/DB.js";
 
 import ItemModel from "../model/ItemModel.js";
 
