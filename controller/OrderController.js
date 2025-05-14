@@ -43,6 +43,7 @@ function resetCustomer() {
     $('#loadFirstName').val('');
     $('#loadLastName').val('');
     $('#loadAddress').val('');
+    $('#loadEmail').val('');
     $('#loadContact').val('');
 }
 $('#resetCustomerDetails').on('click',function () {
@@ -94,4 +95,66 @@ $('#resetItemDetails').on('click',function () {
 
 // add to Cart function
 
+$('#addToOrder').on('click',function () {
 
+    let itemID = $('#loadItemId').val();
+    let itemName = $('#loadItemName').val();
+    let customerName = $('#loadFirstName').val();
+    let price = parseFloat($('#loadItemPrice').val());
+    let needQty = parseInt($('#quantity').val());
+    let item = Item_db.find(item => item.ItemCode === itemID )
+
+    if (!item) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "No Item Found",
+        });
+        return
+    }
+
+    if (item.QtyOnHand<needQty){
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Not enough Quantity",
+        });
+    } else {
+        item.QtyOnHand -= needQty;
+        let total = price*needQty;
+        $('#loadTotal').text(total)
+        // loadItem();
+        let order_data = new OrderModel(customerName,itemName,needQty,price,total);
+        Order_db.push(order_data);
+
+        loadOrderTable();
+        resetItem();
+        resetCustomer();
+        // setCount();
+
+        Swal.fire({
+            title: "Data Saved Successfully!",
+            icon: "success",
+            draggable: true
+        });
+    }
+})
+function loadOrderTable() {
+    $('#order-body').empty();
+    Order_db.map((order, index) => {
+        let customerName = order.customerName;
+        let itemName = order.itemName;
+        let qty = order.qty;
+        let price = order.price;
+        let total = order.total;
+        let data = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${customerName}</td>
+                            <td>${itemName}</td>
+                            <td>${qty}</td>
+                            <td>${price}</td>
+                            <td>${total}</td>
+                        </tr>`
+        $('#Orders-tbody').append(data);
+    })
+}

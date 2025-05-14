@@ -157,11 +157,19 @@
 
 <!--                             orders-->
  <section id="Orders">
-     <div class="card">
-         <h1>OrderManage</h1>
-         <div class="card-body">
-             <div class="card">
-                 <h5 class="card-header">Customer Details</h5>
+     <!-- Section Title -->
+     <div class="d-flex align-items-center mb-4" >
+         <h1 class="mb-0">Order Management</h1>
+     </div>
+
+     <!-- Row for Form 1 and 2 side by side -->
+     <div class="row g-4 mb-4 d-flex align-items-stretch ">
+         <!-- Customer Search Form -->
+         <div class="col-md-6">
+             <div class="card shadow h-100">
+                 <div class="card-header bg-info text-white">
+                     <h5 class="mb-0"> Search or Add Customer</h5>
+                 </div>
                  <div class="card-body">
                      <form id="customerSearchForm">
                          <label class="form-label fw-bold">Customer ID</label>
@@ -214,10 +222,14 @@
                      </form>
                  </div>
              </div>
+         </div>
 
-             <!--                                     item-->
-             <div class="card">
-                 <h5 class="Add Order And Select Items">Featured</h5>
+         <!-- Item Form -->
+         <div class="col-md-6 h-100">
+             <div class="card shadow">
+                 <div class="card-header bg-warning text-dark">
+                     <h5 class="mb-0"> Add  Order</h5>
+                 </div>
                  <div class="card-body">
                      <form id="itemForm">
                          <label class="form-label fw-bold">Item ID</label>
@@ -268,10 +280,7 @@
          </div>
      </div>
 
-
- </section>
-
-
+  </section>
 
 <!--                             orders Details-->
 <section id="Order_details">
