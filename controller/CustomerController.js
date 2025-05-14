@@ -155,3 +155,52 @@ $('#customer_update').on('click', function () {
     }
 });
 // -------------------------Delete Customer--------------------------
+$('#customer_delete').on('click', function () {
+    let customerId = $('#customerId').val();
+
+    if (customerId === '') {
+        Swal.fire({
+            icon: "warning",
+            title: "No ID",
+            text: "Please select a customer to delete.",
+        });
+        return;
+    }
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const index = Customer_db.findIndex(c => c.customerId === customerId);
+            if (index !== -1) {
+                Customer_db.splice(index, 1); // Remove from array
+                loadCustomers();
+                clearForm();
+                Swal.fire(
+                    "Deleted!",
+                    "Customer has been deleted.",
+                    "success"
+                );
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "Not Found",
+                    text: "Customer with ID " + customerId + " does not exist.",
+                });
+            }
+        }
+    });
+});
+
+$('#customer_reset').on('click',function () {
+    clearForm();
+})
+
+
+
