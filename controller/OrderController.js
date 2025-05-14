@@ -37,3 +37,46 @@ function searchCustomer() {
         });
     }
 }
+function resetCustomer() {
+    $('#searchCustomerInput').val('');
+    $('#loadCid').val('');
+    $('#loadFirstName').val('');
+    $('#loadLastName').val('');
+    $('#loadAddress').val('');
+    $('#loadContact').val('');
+}
+$('#resetCustomerDetails').on('click',function () {
+    resetCustomer();
+})
+
+
+// search Item
+$('#searchItem').on('click',function () {
+    searchItem();
+})
+
+function searchItem() {
+    let id = $('#itemIDInput').val().trim();
+    if (!id){
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Search an ID first",
+        });
+        return
+    }
+    const c = Item_db.find(item => item.ItemCode === id);
+    if (c){
+        $('#loadItemId').val(c.ItemCode);
+        $('#loadItemName').val(c.ItemName);
+        $('#loadItemQty').val(c.QtyOnHand);
+        $('#loadItemPrice').val(c.PricePerUnit);
+    }else {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Id does not Exist",
+        });
+    }
+}
+
