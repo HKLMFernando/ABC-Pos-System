@@ -1,4 +1,4 @@
-import {Item_db} from "../db/DB.js";
+import {Customer_db, Item_db} from "../db/DB.js";
 
 import ItemModel from "../model/ItemModel.js";
 
@@ -99,5 +99,46 @@ function clearForm() {
     // // Change button text back to "Save"
     // $('#customer_save').text('Save');
 }
+$('#item_update').on('click', function () {
+    let ItemCode = $('#ItemCode').val();
+    let ItemName = $('#ItemName').val();
+    let QtyOnHand =$('#QtyOnHand').val();
+    let PricePerUnit = $('#PricePerUnit').val();
+
+
+    if (ItemCode === '' || ItemName === '' || QtyOnHand === '' || PricePerUnit === '' ) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Select data to update!",
+        });
+        return;
+    }
+
+    /*Find index of customer by ID*/
+    const index = Item_db.findIndex(c => c.ItemCode === ItemCode);
+
+    if (index !== -1) {
+        Item_db[index].ItemCode = ItemCode;
+        Item_db[index].ItemName = ItemName;
+        Item_db[index].QtyOnHand = QtyOnHand;
+        Item_db[index].PricePerUnit = PricePerUnit;
+
+        loadItem();
+        clearForm();
+
+        Swal.fire({
+            title: "Updated Successfully!",
+            icon: "success",
+            draggable: true
+        });
+    } else {
+        Swal.fire({
+            icon: "error",
+            title: "Not Found",
+            text: "Item with ID " + ItemCode+ " does not exist.",
+        });
+    }
+});
 
 
