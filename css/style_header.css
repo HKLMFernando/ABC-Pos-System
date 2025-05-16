@@ -1,4 +1,19 @@
 #header{
+    border: 5px solid grey;
+}
+#headers{
     background-color:#335282 ;
+    border: 5px solid grey;
+}
+#nav-buttons{
+    border: 2px solid lightgray;
+}
+#h-content{
+    color: white;
+}
+
+
+#card-body-colour,#card-body-colour1,#card-body-colour2,#card-body-colour3,#card-body-colour4{
+    background-color: lightblue;
 }
 
