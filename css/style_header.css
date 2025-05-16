@@ -26,7 +26,7 @@
     border: grey;
 }
 
-#c-content,I-content{
+#c-content,I-content,O-content{
     font-family: "Baskerville Old Face";
 }
 #lable1,#lable2,#lable3,#lable4,#lable5,#lable6,#lable7,#lable8,#lable9,#lable10{
@@ -34,7 +34,7 @@
     font-size: 24px;
 }
 
-#t1,#t2,#t3,#t4,#t5,#t6,#it1,#it2,#it3,#it4,#it5{
+#t1,#t2,#t3,#t4,#t5,#t6,#it1,#it2,#it3,#it4,#it5,#ot1,#ot2,#ot3,#ot4,#ot5,#ot6{
     font-family: "Bell MT";
     font-size: 24px;
 }
