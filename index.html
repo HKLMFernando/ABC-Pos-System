@@ -52,33 +52,36 @@
 <!--                             customer section-->
 
 <section id="Customer">
-    <h1> Customer Form</h1>
+    <h1 id="c-content">
+        <img src="assest/image/icons8-add-30.png" alt="add">
+        Add Customer
+    </h1>
     <div class="card">
         <div class="card-body" id="card-body-colour">
             <form class="row g-3">
                 <div class="col-md-6">
-                    <label for="customerId" class="form-label">Customer Id</label>
+                    <label for="customerId" class="form-label" id="lable1" >Customer Id</label>
                     <input type="text" class="form-control" id="customerId">
                 </div>
                 <div class="col-md-6">
-                    <label for="firstName" class="form-label">First Name</label>
+                    <label for="firstName" class="form-label" id="lable2">First Name</label>
                     <input type="text" class="form-control" id="firstName">
                 </div>
                 <div class="col-md-6">
-                    <label for="lastName" class="form-label">Last Name</label>
+                    <label for="lastName" class="form-label" id="lable3">Last Name</label>
                     <input type="text" class="form-control" id="lastName">
                 </div>
                 <div class="col-12">
-                    <label for="address" class="form-label">Address</label>
+                    <label for="address" class="form-label" id="lable4">Address</label>
                     <input type="text" class="form-control" id="address" >
                 </div>
                 <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
+                    <label for="email" class="form-label" id="lable5">Email</label>
                     <input type="email" class="form-control" id="email">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="contact" class="form-label">Contacts Number</label>
+                    <label for="contact" class="form-label" id="lable6">Contacts Number</label>
                     <input type="text" class="form-control" id="contact">
                 </div>
 
@@ -97,15 +100,15 @@
             </form>
         </div>
     </div>
-    <table class="table">
+    <table class="table" id="table1">
         <thead>
         <tr>
-            <th scope="col">CustomerID</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">Email</th>
-            <th scope="col">contacts</th>
+            <th scope="col" id="t1">CustomerID</th>
+            <th scope="col" id="t2">First Name</th>
+            <th scope="col" id="t3">Last Name</th>
+            <th scope="col" id="t4">Address</th>
+            <th scope="col" id="t5">Email</th>
+            <th scope="col" id="t6">contacts</th>
         </tr>
         </thead>
         <tbody id="customer-tbody">
@@ -116,26 +119,29 @@
 
 <!--                             Item -->
 <section id="Items">
-    <h1> Item Form</h1>
+    <h1 id="I-content">
+        <img src="assest/image/icons8-add-30.png" alt="Add Item">
+        Add Item
+    </h1>
     <div class="card">
         <div class="card-body" id="card-body-colour1">
             <form class="row g-3">
                 <div class="col-md-6">
-                    <label for="ItemCode" class="form-label">Item Id</label>
+                    <label for="ItemCode" class="form-label" id="lable7">Item Id</label >
                     <input type="text" class="form-control" id="ItemCode">
                 </div>
                 <div class="col-md-6">
-                    <label for="ItemName" class="form-label">Item Name</label>
+                    <label for="ItemName" class="form-label" id="lable8">Item Name</label>
                     <input type="text" class="form-control" id="ItemName">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="QtyOnHand" class="form-label">Quantity on Hand</label>
+                    <label for="QtyOnHand" class="form-label" id="lable9">Quantity on Hand</label>
                     <input type="email" class="form-control" id="QtyOnHand">
                 </div>
 
                 <div class="col-md-6">
-                    <label for="PricePerUnit" class="form-label">Price per unit</label>
+                    <label for="PricePerUnit" class="form-label" id="lable10">Price per unit</label>
                     <input type="text" class="form-control" id="PricePerUnit">
                 </div>
 
@@ -155,7 +161,7 @@
         </div>
     </div>
 
-    <table class="table">
+    <table class="table" id="table2">
         <thead>
         <tr>
             <th scope="col">#</th>
@@ -242,8 +248,8 @@
          <!-- Item Form -->
          <div class="col-md-6 h-100">
              <div class="card shadow">
-                 <div class="card-header bg-warning text-dark">
-                     <h5 class="mb-0"> Add  Order</h5>
+                 <div class="card-header bg-info text-white">
+                     <h5 class="mb-0"> Search or Add Customer</h5>
                  </div>
                  <div class="card-body" id="card-body-colour4">
                      <form id="itemForm">
@@ -300,7 +306,7 @@
 <!--                             orders Details-->
 <section id="Order_details">
     <h1>Order Details</h1>
-    <table class="table">
+    <table class="table" id="table3">
         <thead>
         <tr>
             <th scope="col">#</th>
