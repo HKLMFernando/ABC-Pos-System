@@ -180,7 +180,10 @@
  <section id="Orders">
      <!-- Section Title -->
      <div class="d-flex align-items-center mb-4" >
-         <h1 class="mb-0">Order Management</h1>
+         <h1 class="mb-0" id="od-Content">
+             <img src="assest/image/icons8-add-30.png" alt="add">
+             Get Order
+         </h1>
      </div>
 
      <!-- Row for Form 1 and 2 side by side -->
@@ -189,11 +192,13 @@
          <div class="col-md-6">
              <div class="card shadow h-100">
                  <div class="card-header bg-info text-white">
-                     <h5 class="mb-0"> Search or Add Customer</h5>
+                     <h5 class="mb-0" id="order-card-content">
+                         <img src="assest/image/icons8-search-50.png" alt="searchh">
+                         Search or Add Customer</h5>
                  </div>
                  <div class="card-body" id="card-body-colour2">
                      <form id="customerSearchForm">
-                         <label class="form-label fw-bold">Customer ID</label>
+                         <label class="form-label fw-bold" id="Oc1">Customer ID</label>
                          <div class="input-group mb-3">
                              <span class="input-group-text"><i class="bi bi-search"></i></span>
                              <input type="text" class="form-control" id="searchCustomerInput" placeholder="Enter ID">
@@ -204,37 +209,37 @@
                          </div>
                          <div id="loadCustomerIdInOrder mb-3">
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">Customer id</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc2">Customer id</label>
                                  <div class="col-sm-8">
                                      <input id="loadCid" type="text" class="form-control" readonly>
                                  </div>
                              </div>
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">First name</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc3">First name</label>
                                  <div class="col-sm-8">
                                      <input id="loadFirstName" type="text" class="form-control" readonly>
                                  </div>
                              </div>
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">Last name</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc4">Last name</label>
                                  <div class="col-sm-8">
                                      <input id="loadLastName" type="text" class="form-control" readonly>
                                  </div>
                              </div>
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">Address</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc5">Address</label>
                                  <div class="col-sm-8">
                                      <input id="loadAddress" type="text" class="form-control" readonly>
                                  </div>
                              </div>
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">Email</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc6">Email</label>
                                  <div class="col-sm-8">
                                      <input id="loadEmail" type="text" class="form-control" readonly>
                                  </div>
                              </div>
                              <div class="row mb-2">
-                                 <label class="col-sm-4 col-form-label">Contact</label>
+                                 <label class="col-sm-4 col-form-label" id="Oc7">Contact</label>
                                  <div class="col-sm-8">
                                      <input id="loadContact" type="text" class="form-control" readonly>
                                  </div>
@@ -249,7 +254,10 @@
          <div class="col-md-6 h-100">
              <div class="card shadow">
                  <div class="card-header bg-info text-white">
-                     <h5 class="mb-0"> Search or Add Customer</h5>
+                     <h5 class="mb-0" id="order-card-content1">
+                         <img src="assest/image/icons8-add-30.png" alt="sercch">
+                        Add Order
+                     </h5>
                  </div>
                  <div class="card-body" id="card-body-colour4">
                      <form id="itemForm">
