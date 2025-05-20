@@ -21,6 +21,9 @@
              </button>
              <div class="collapse navbar-collapse" id="navbarNavDropdown">
                  <ul class="navbar-nav" id="nav-buttons">
+                     <button id="home_nav" class="nav-item btn btn-link">
+                         Home
+                     </button>
                      <button id="customer_nav" class="nav-item btn btn-link">
                          Customer
                      </button>
@@ -48,6 +51,24 @@
          </div>
      </nav>
  </section>
+
+<section id="Home">
+    <div class="card text-center">
+        <div class="card-header">
+            <h1 id="he1-content">
+                <img src="assest/image/icons8-home-50.png" alt="add">
+                Home
+            </h1>
+        </div>
+        <div class="card-body">
+            <img src="assest/image/poslogo.jpg" class="img-fluid" alt="...">
+            <h2 class="card-title">welcome </h2>
+            <p class="card-text">A system processes sales transactions, tracks inventory, and manages customer data in retail or service businesses.</p>
+            <a href="#" class="btn btn-primary">Get Started</a>
+        </div>
+    </div>
+
+</section>
 
 <!--                             customer section-->
 
@@ -347,6 +368,8 @@
 
 
   <script>
+      $("#Customer").css("display", "none");
+
       $("#Items").css("display", "none");
       $("#Orders").css("display", "none");
       $("#Order_details").css("display", "none");
@@ -357,13 +380,24 @@
             $("#Customer").css("display", "none");
             $("#Orders").css("display", "none");
             $("#Order_details").css("display", "none");
+            $("#Home").css("display", "none");
      })
+
+      $("#home_nav").on('click', function () {
+          $("#Home").css("display", "block");
+          $("#Customer").css("display", "none");
+          $("#Items").css("display", "none");
+          $("#Orders").css("display", "none");
+          $("#Order_details").css("display", "none");
+      })
 
      $("#customer_nav").on('click', function () {
             $("#Customer").css("display", "block");
             $("#Items").css("display", "none");
             $("#Orders").css("display", "none");
             $("#Order_details").css("display", "none");
+         $("#Home").css("display", "none");
+
      })
 
      $("#orders_nav").on('click', function () {
@@ -371,6 +405,8 @@
           $("#Customer").css("display", "none");
           $("#Items").css("display", "none");
           $("#Order_details").css("display", "none");
+         $("#Home").css("display", "none");
+
      })
 
      $("#ordersDetails_nav").on('click', function () {
@@ -378,6 +414,8 @@
           $("#Orders").css("display", "none");
           $("#Customer").css("display", "none");
           $("#Items").css("display", "none");
+         $("#Home").css("display", "none");
+
 
 
      })

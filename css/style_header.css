@@ -29,7 +29,7 @@
     border: grey;
 }
 
-#c-content,I-content,O-content,od-Content{
+#c-content,I-content,O-content,od-Content,he1-content{
     font-family: "Baskerville Old Face";
 }
 #order-card-content,#order-card-content1{
@@ -53,4 +53,95 @@
 #oi1,#oi2,#oi3,#oi4,#oi5,#oi6{
     font-family: "Bell MT";
     font-size: 24px;
+}
+
+#Home{
+    background-color: lightblue;
+}
+
+
+
+
+
+
+
+
+
+
+body {
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.home-icon {
+    font-size: 24px;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.welcome-card {
+    height: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.neon-container {
+    background-color: #212529;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+}
+
+.neon-shopping {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.neon-bag {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 8px rgba(255, 105, 180, 0.8));
+}
+
+.neon-tag {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 0 8px rgba(144, 238, 144, 0.8));
+}
+
+.welcome-content {
+    padding: 40px 30px;
+    text-align: center;
+}
+
+.welcome-heading {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.welcome-text {
+    color: #6c757d;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+}
+
+.btn-get-started {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 30px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-get-started:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
 }
