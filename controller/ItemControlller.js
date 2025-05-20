@@ -46,12 +46,6 @@ $('#item_save').on('click', function(){
     } else {
 
 
-        // let student_data = {
-        //     fname: fname,
-        //     lname: lname,
-        //     address: address
-        // };
-
         let Item_data = new ItemModel(ItemCode,ItemName,QtyOnHand,PricePerUnit);
 
         Item_db.push(Item_data);
@@ -93,11 +87,7 @@ function clearForm() {
     $('#ItemName').val('');
     $('#QtyOnHand').val('');
     $('#PricePerUnit').val('');
-    // // Reset edit mode
-    // isEditMode = false;
-    // editIndex = -1;
-    // // Change button text back to "Save"
-    // $('#customer_save').text('Save');
+
 }
 $('#item_update').on('click', function () {
     let ItemCode = $('#ItemCode').val();

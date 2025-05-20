@@ -1,185 +1,171 @@
 import { Customer_db } from "../db/DB.js";
 import CustomerModel from "../model/CustomerModel.js";
 
-// Load on page ready
 $(document).ready(function () {
     $('#customerId').val(generateCustomerID());
     loadCustomers();
 });
 
-// Generate Customer ID
+/*------------------- Generate ID -------------------*/
 function generateCustomerID() {
-    if (Customer_db.length === 0) {
-        return "C001";
-    }
+    if (Customer_db.length === 0) return "C001";
     let lastId = Customer_db[Customer_db.length - 1].customerId;
-    let numberPart = parseInt(lastId.substring(1));
-    let newId = numberPart + 1;
-    return "C" + newId.toString().padStart(3, '0');
+    let number = parseInt(lastId.substring(1)) + 1;
+    return "C" + number.toString().padStart(3, '0');
 }
 
-// Load Customers to Table
+/*------------------- Load Table -------------------*/
 function loadCustomers() {
     $('#customer-tbody').empty();
-    Customer_db.map((customer, index) => {
-        let data = `<tr>
-            <td>${customer.customerId}</td>
-            <td>${customer.firstname}</td>
-            <td>${customer.lastname}</td>
-            <td>${customer.address}</td>
-            <td>${customer.email}</td>
-            <td>${customer.contact}</td>
-        </tr>`;
-        $('#customer-tbody').append(data);
+    Customer_db.map((c) => {
+        $('#customer-tbody').append(`
+            <tr>
+                <td>${c.customerId}</td>
+                <td>${c.firstname}</td>
+                <td>${c.lastname}</td>
+                <td>${c.address}</td>
+                <td>${c.email}</td>
+                <td>${c.contact}</td>
+            </tr>`);
     });
 }
 
-// Save Customer
-$('#customer_save').on('click', function () {
-    const nameRegex = /^[A-Za-z]{2,}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const contactRegex = /^(?:\+94|0)?[1-9][0-9]{8}$/;
-
-    let customerID = generateCustomerID();
-    $('#customerId').val(customerID);
-    let firstname = $('#firstName').val();
-    let lastname = $('#lastName').val();
-    let address = $('#address').val();
-    let email = $('#email').val();
-    let contact = $('#contact').val();
-
-    // Validation
-    if (!nameRegex.test(firstname)) {
-        return Swal.fire({ icon: "error", title: "Invalid First Name", text: "Use only letters (min 2 characters)." });
-    }
-    if (!nameRegex.test(lastname)) {
-        return Swal.fire({ icon: "error", title: "Invalid Last Name", text: "Use only letters (min 2 characters)." });
-    }
-    if (address.trim() === '') {
-        return Swal.fire({ icon: "error", title: "Invalid Address", text: "Address cannot be empty." });
-    }
-    if (!emailRegex.test(email)) {
-        return Swal.fire({ icon: "error", title: "Invalid Email", text: "Enter a valid email address." });
-    }
-    if (!contactRegex.test(contact)) {
-        return Swal.fire({ icon: "error", title: "Invalid Contact", text: "Enter a valid Sri Lankan contact number." });
-    }
-
-    // Save if valid
-    let customer_data = new CustomerModel(customerID, firstname, lastname, address, email, contact);
-    Customer_db.push(customer_data);
-    loadCustomers();
-    Swal.fire({ title: "Data Saved Successfully!", icon: "success" });
-    clearForm();
-});
-
-// Clear Form
-function clearForm() {
-    $('#customerId').val(generateCustomerID());
-    $('#firstName').val('');
-    $('#lastName').val('');
-    $('#address').val('');
-    $('#email').val('');
-    $('#contact').val('');
+/*------------------- Validation -------------------*/
+function validateInput(id, pattern) {
+    const $input = $(id);
+    const isValid = pattern.test($input.val().trim());
+    $input.toggleClass("input-error", !isValid);
+    return isValid;
 }
 
-// Table Row Click to Load Customer
-$("#customer-tbody").on('click', 'tr', function () {
-    let idx = $(this).index();
-    let obj = Customer_db[idx];
+function validateForm() {
+    const nameReg = /^[A-Za-z]{2,}$/;
+    const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneReg = /^(?:\+94|0)?[1-9][0-9]{8}$/;
 
-    $("#customerId").val(obj.customerId);
-    $("#firstName").val(obj.firstname);
-    $("#lastName").val(obj.lastname);
-    $("#address").val(obj.address);
-    $("#email").val(obj.email);
-    $("#contact").val(obj.contact);
+    let valid = true;
+
+    valid = validateInput("#firstName", nameReg) && valid;
+    valid = validateInput("#lastName", nameReg) && valid;
+    valid = validateInput("#email", emailReg) && valid;
+    valid = validateInput("#contact", phoneReg) && valid;
+
+    const address = $('#address');
+    if (address.val().trim() === '') {
+        address.addClass("input-error");
+        valid = false;
+    } else {
+        address.removeClass("input-error");
+    }
+
+    return valid;
+}
+
+/*------------------- Save -------------------*/
+$('#customer_save').on('click', function () {
+    if (!validateForm()) {
+        Swal.fire("Error", "Fix red fields before saving.", "error");
+        return;
+    }
+
+    const customerID = generateCustomerID();
+    const newCustomer = new CustomerModel(
+        customerID,
+        $('#firstName').val().trim(),
+        $('#lastName').val().trim(),
+        $('#address').val().trim(),
+        $('#email').val().trim(),
+        $('#contact').val().trim()
+    );
+
+    Customer_db.push(newCustomer);
+    loadCustomers();
+    clearForm();
+
+    Swal.fire("Saved!", "Customer added successfully.", "success");
 });
 
-// Update Customer
+/*------------------- Update -------------------*/
 $('#customer_update').on('click', function () {
-    const nameRegex = /^[A-Za-z]{2,}$/;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const contactRegex = /^(?:\+94|0)?[1-9][0-9]{8}$/;
-
-    let customerId = $('#customerId').val();
-    let firstname = $('#firstName').val();
-    let lastname = $('#lastName').val();
-    let address = $('#address').val();
-    let email = $('#email').val();
-    let contact = $('#contact').val();
-
-    if (!customerId || !firstname || !lastname || !address || !email || !contact) {
-        return Swal.fire({ icon: "error", title: "Oops...", text: "Select data to update!" });
+    if (!validateForm()) {
+        Swal.fire("Error", "Fix red fields before updating.", "error");
+        return;
     }
 
-    // Validation
-    if (!nameRegex.test(firstname)) {
-        return Swal.fire({ icon: "error", title: "Invalid First Name", text: "Use only letters (min 2 characters)." });
-    }
-    if (!nameRegex.test(lastname)) {
-        return Swal.fire({ icon: "error", title: "Invalid Last Name", text: "Use only letters (min 2 characters)." });
-    }
-    if (address.trim() === '') {
-        return Swal.fire({ icon: "error", title: "Invalid Address", text: "Address cannot be empty." });
-    }
-    if (!emailRegex.test(email)) {
-        return Swal.fire({ icon: "error", title: "Invalid Email", text: "Enter a valid email address." });
-    }
-    if (!contactRegex.test(contact)) {
-        return Swal.fire({ icon: "error", title: "Invalid Contact", text: "Enter a valid Sri Lankan contact number." });
-    }
+    const id = $('#customerId').val();
+    const index = Customer_db.findIndex(c => c.customerId === id);
 
-    // Update
-    const index = Customer_db.findIndex(c => c.customerId === customerId);
     if (index !== -1) {
-        Customer_db[index].firstname = firstname;
-        Customer_db[index].lastname = lastname;
-        Customer_db[index].address = address;
-        Customer_db[index].email = email;
-        Customer_db[index].contact = contact;
-
+        Customer_db[index] = new CustomerModel(
+            id,
+            $('#firstName').val().trim(),
+            $('#lastName').val().trim(),
+            $('#address').val().trim(),
+            $('#email').val().trim(),
+            $('#contact').val().trim()
+        );
         loadCustomers();
         clearForm();
-
-        Swal.fire({ title: "Updated Successfully!", icon: "success" });
+        Swal.fire("Updated!", "Customer updated successfully.", "success");
     } else {
-        Swal.fire({ icon: "error", title: "Not Found", text: `Customer with ID ${customerId} does not exist.` });
+        Swal.fire("Not Found", "Customer ID not found.", "error");
     }
 });
 
-// Delete Customer
+/*------------------- Delete -------------------*/
 $('#customer_delete').on('click', function () {
-    let customerId = $('#customerId').val();
-
-    if (customerId === '') {
-        return Swal.fire({ icon: "warning", title: "No ID", text: "Please select a customer to delete." });
-    }
+    const id = $('#customerId').val();
+    if (!id) return Swal.fire("No ID", "Please select a customer.", "warning");
 
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Delete?",
+        text: "You can't undo this!",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
         confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
+    }).then(result => {
         if (result.isConfirmed) {
-            const index = Customer_db.findIndex(c => c.customerId === customerId);
+            const index = Customer_db.findIndex(c => c.customerId === id);
             if (index !== -1) {
                 Customer_db.splice(index, 1);
                 loadCustomers();
                 clearForm();
-                Swal.fire("Deleted!", "Customer has been deleted.", "success");
+                Swal.fire("Deleted!", "Customer removed.", "success");
             } else {
-                Swal.fire({ icon: "error", title: "Not Found", text: `Customer with ID ${customerId} does not exist.` });
+                Swal.fire("Error", "Customer not found.", "error");
             }
         }
     });
 });
 
-// Reset Form
-$('#customer_reset').on('click', function () {
-    clearForm();
+/*------------------- Clear -------------------*/
+function clearForm() {
+    $('#customerId').val(generateCustomerID());
+    $('#firstName, #lastName, #address, #email, #contact').val('').removeClass("input-error");
+}
+
+/*------------------- Reset -------------------*/
+$('#customer_reset').on('click', clearForm);
+
+/*------------------- Click Row -------------------*/
+$('#customer-tbody').on('click', 'tr', function () {
+    const index = $(this).index();
+    const c = Customer_db[index];
+    $('#customerId').val(c.customerId);
+    $('#firstName').val(c.firstname);
+    $('#lastName').val(c.lastname);
+    $('#address').val(c.address);
+    $('#email').val(c.email);
+    $('#contact').val(c.contact);
+});
+
+/*------------------- Real-time Regex Validation -------------------*/
+$('#firstName').on('input', () => validateInput('#firstName', /^[A-Za-z]{2,}$/));
+$('#lastName').on('input', () => validateInput('#lastName', /^[A-Za-z]{2,}$/));
+$('#email').on('input', () => validateInput('#email', /^[^\s@]+@[^\s@]+\.[^\s@]+$/));
+$('#contact').on('input', () => validateInput('#contact', /^(?:\+94|0)?[1-9][0-9]{8}$/));
+$('#address').on('input', function () {
+    const $input = $(this);
+    const isValid = $input.val().trim() !== '';
+    $input.toggleClass("input-error", !isValid);
 });
