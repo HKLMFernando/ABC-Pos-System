@@ -1,58 +1,46 @@
-import {Customer_db} from "../db/DB.js";
-
+import { Customer_db } from "../db/DB.js";
 import CustomerModel from "../model/CustomerModel.js";
 
-
-
-
-/*---------------------Load Customer ID When The Page is Loading-------------------*/
-$(document).ready(function() {
+// Load on page ready
+$(document).ready(function () {
     $('#customerId').val(generateCustomerID());
     loadCustomers();
 });
 
-
-
-/*--------------------------Generate next Customer Id----------------------------*/
+// Generate Customer ID
 function generateCustomerID() {
     if (Customer_db.length === 0) {
         return "C001";
     }
-    // Get the last customer ID (assuming last added is at the end)
     let lastId = Customer_db[Customer_db.length - 1].customerId;
     let numberPart = parseInt(lastId.substring(1));
     let newId = numberPart + 1;
     return "C" + newId.toString().padStart(3, '0');
 }
-/*-----------------------Load Table Data--------------------------------------------*/
+
+// Load Customers to Table
 function loadCustomers() {
     $('#customer-tbody').empty();
-    Customer_db.map((customer,index)=>{
-        let customerId = customer.customerId;
-        let firstname= customer.firstname;
-        let lastname = customer.lastname;
-        let address = customer.address;
-        let email = customer.email;
-        let contact = customer.contact;
-
-
-
-        let  data = `<tr>
-                            <td>${customerId}</td>
-                            <td>${firstname}</td>
-                            <td>${lastname}</td>
-                            <td>${address}</td>
-                            <td>${email}</td>
-                            <td>${contact}</td>
-                        </tr>`
+    Customer_db.map((customer, index) => {
+        let data = `<tr>
+            <td>${customer.customerId}</td>
+            <td>${customer.firstname}</td>
+            <td>${customer.lastname}</td>
+            <td>${customer.address}</td>
+            <td>${customer.email}</td>
+            <td>${customer.contact}</td>
+        </tr>`;
         $('#customer-tbody').append(data);
-
-    })
+    });
 }
 
-/*---------------------------Save Customer----------------------------------------*/
-$('#customer_save').on('click',function () {
-    let customerID = generateCustomerID()
+// Save Customer
+$('#customer_save').on('click', function () {
+    const nameRegex = /^[A-Za-z]{2,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const contactRegex = /^(?:\+94|0)?[1-9][0-9]{8}$/;
+
+    let customerID = generateCustomerID();
     $('#customerId').val(customerID);
     let firstname = $('#firstName').val();
     let lastname = $('#lastName').val();
@@ -60,25 +48,32 @@ $('#customer_save').on('click',function () {
     let email = $('#email').val();
     let contact = $('#contact').val();
 
-    if(firstname === '' || lastname === '' || address === '' || email === '' || contact === '') {
-        Swal.fire({
-            icon: "error",
-            title: "Invalid Input",
-            text: "Please enter valid customer details.",
-        });
-    }else {
-        let customer_data = new  CustomerModel (customerID,firstname,lastname,address,email,contact);
-        Customer_db.push(customer_data);
-        loadCustomers();
-        Swal.fire({
-            title: "Data Saved Successfully!",
-            icon: "success",
-            draggable: true
-        });
-        clearForm();
+    // Validation
+    if (!nameRegex.test(firstname)) {
+        return Swal.fire({ icon: "error", title: "Invalid First Name", text: "Use only letters (min 2 characters)." });
     }
+    if (!nameRegex.test(lastname)) {
+        return Swal.fire({ icon: "error", title: "Invalid Last Name", text: "Use only letters (min 2 characters)." });
+    }
+    if (address.trim() === '') {
+        return Swal.fire({ icon: "error", title: "Invalid Address", text: "Address cannot be empty." });
+    }
+    if (!emailRegex.test(email)) {
+        return Swal.fire({ icon: "error", title: "Invalid Email", text: "Enter a valid email address." });
+    }
+    if (!contactRegex.test(contact)) {
+        return Swal.fire({ icon: "error", title: "Invalid Contact", text: "Enter a valid Sri Lankan contact number." });
+    }
+
+    // Save if valid
+    let customer_data = new CustomerModel(customerID, firstname, lastname, address, email, contact);
+    Customer_db.push(customer_data);
+    loadCustomers();
+    Swal.fire({ title: "Data Saved Successfully!", icon: "success" });
+    clearForm();
 });
-/*---------------------------Clear data in the form--------------------------------------------*/
+
+// Clear Form
 function clearForm() {
     $('#customerId').val(generateCustomerID());
     $('#firstName').val('');
@@ -86,51 +81,57 @@ function clearForm() {
     $('#address').val('');
     $('#email').val('');
     $('#contact').val('');
-
 }
 
-
-/*-----------------------Table Onclick Action-------------------------------------*/
-$("#customer-tbody").on('click', 'tr', function(){
+// Table Row Click to Load Customer
+$("#customer-tbody").on('click', 'tr', function () {
     let idx = $(this).index();
     let obj = Customer_db[idx];
 
-    let customerId = obj.customerId;
-    let firstname = obj.firstname;
-    let lastname = obj.lastname;
-    let address = obj.address;
-    let email = obj.email;
-    let contact = obj.contact;
-
-    $("#customerId").val(customerId);
-    $("#firstName").val(firstname);
-    $("#lastName").val(lastname);
-    $("#address").val(address);
-    $("#email").val(email);
-    $("#contact").val(contact);
-
+    $("#customerId").val(obj.customerId);
+    $("#firstName").val(obj.firstname);
+    $("#lastName").val(obj.lastname);
+    $("#address").val(obj.address);
+    $("#email").val(obj.email);
+    $("#contact").val(obj.contact);
 });
-/*---------------Update Customer Details-------------------------------*/
+
+// Update Customer
 $('#customer_update').on('click', function () {
+    const nameRegex = /^[A-Za-z]{2,}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const contactRegex = /^(?:\+94|0)?[1-9][0-9]{8}$/;
+
     let customerId = $('#customerId').val();
     let firstname = $('#firstName').val();
-    let lastname =$('#lastName').val();
+    let lastname = $('#lastName').val();
     let address = $('#address').val();
     let email = $('#email').val();
     let contact = $('#contact').val();
 
-    if (customerId === '' || firstname === '' || lastname === '' || address === '' || email === '' || contact === '') {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Select data to update!",
-        });
-        return;
+    if (!customerId || !firstname || !lastname || !address || !email || !contact) {
+        return Swal.fire({ icon: "error", title: "Oops...", text: "Select data to update!" });
     }
 
-    /*Find index of customer by ID*/
-    const index = Customer_db.findIndex(c => c.customerId === customerId);
+    // Validation
+    if (!nameRegex.test(firstname)) {
+        return Swal.fire({ icon: "error", title: "Invalid First Name", text: "Use only letters (min 2 characters)." });
+    }
+    if (!nameRegex.test(lastname)) {
+        return Swal.fire({ icon: "error", title: "Invalid Last Name", text: "Use only letters (min 2 characters)." });
+    }
+    if (address.trim() === '') {
+        return Swal.fire({ icon: "error", title: "Invalid Address", text: "Address cannot be empty." });
+    }
+    if (!emailRegex.test(email)) {
+        return Swal.fire({ icon: "error", title: "Invalid Email", text: "Enter a valid email address." });
+    }
+    if (!contactRegex.test(contact)) {
+        return Swal.fire({ icon: "error", title: "Invalid Contact", text: "Enter a valid Sri Lankan contact number." });
+    }
 
+    // Update
+    const index = Customer_db.findIndex(c => c.customerId === customerId);
     if (index !== -1) {
         Customer_db[index].firstname = firstname;
         Customer_db[index].lastname = lastname;
@@ -141,30 +142,18 @@ $('#customer_update').on('click', function () {
         loadCustomers();
         clearForm();
 
-        Swal.fire({
-            title: "Updated Successfully!",
-            icon: "success",
-            draggable: true
-        });
+        Swal.fire({ title: "Updated Successfully!", icon: "success" });
     } else {
-        Swal.fire({
-            icon: "error",
-            title: "Not Found",
-            text: "Customer with ID " + customerId+ " does not exist.",
-        });
+        Swal.fire({ icon: "error", title: "Not Found", text: `Customer with ID ${customerId} does not exist.` });
     }
 });
-// -------------------------Delete Customer--------------------------
+
+// Delete Customer
 $('#customer_delete').on('click', function () {
     let customerId = $('#customerId').val();
 
     if (customerId === '') {
-        Swal.fire({
-            icon: "warning",
-            title: "No ID",
-            text: "Please select a customer to delete.",
-        });
-        return;
+        return Swal.fire({ icon: "warning", title: "No ID", text: "Please select a customer to delete." });
     }
 
     Swal.fire({
@@ -179,30 +168,18 @@ $('#customer_delete').on('click', function () {
         if (result.isConfirmed) {
             const index = Customer_db.findIndex(c => c.customerId === customerId);
             if (index !== -1) {
-                Customer_db.splice(index, 1); // Remove from array
+                Customer_db.splice(index, 1);
                 loadCustomers();
                 clearForm();
-                Swal.fire(
-                    "Deleted!",
-                    "Customer has been deleted.",
-                    "success"
-                );
+                Swal.fire("Deleted!", "Customer has been deleted.", "success");
             } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Not Found",
-                    text: "Customer with ID " + customerId + " does not exist.",
-                });
+                Swal.fire({ icon: "error", title: "Not Found", text: `Customer with ID ${customerId} does not exist.` });
             }
         }
     });
 });
 
-$('#customer_reset').on('click',function () {
+// Reset Form
+$('#customer_reset').on('click', function () {
     clearForm();
-})
-
-
-
-
-
+});
