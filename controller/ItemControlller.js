@@ -1,152 +1,113 @@
-import { Item_db} from "../db/DB.js";
-
+import { Item_db } from "../db/DB.js";
 import ItemModel from "../model/ItemModel.js";
 
-
+/*------------------- Load Item Table -------------------*/
 function loadItem() {
     $('#item-tbody').empty();
     Item_db.map((item, index) => {
-        let ItemCode = item.ItemCode;
-        let ItemName = item.ItemName;
-        let QtyOnHand = item.QtyOnHand;
-        let PricePerUnit = item.PricePerUnit;
-
-
-
-        let data = `<tr>
-                            <td>${index + 1}</td>
-                            <td>${ItemCode}</td>
-                            <td>${ItemName}</td>
-                            <td>${QtyOnHand}</td>
-                            <td>${PricePerUnit}</td>
-                         
-                        </tr>`
-
-        $('#item-tbody').append(data);
-    })
+        $('#item-tbody').append(`
+            <tr>
+                <td>${index + 1}</td>
+                <td>${item.ItemCode}</td>
+                <td>${item.ItemName}</td>
+                <td>${item.QtyOnHand}</td>
+                <td>${item.PricePerUnit}</td>
+            </tr>`);
+    });
 }
 
-// save
-$('#item_save').on('click', function(){
-    // let fname = document.getElementById('fname').value;
-    let ItemCode = $('#ItemCode').val();
-    let ItemName = $('#ItemName').val();
-    let QtyOnHand = $('#QtyOnHand').val();
-    let PricePerUnit = $('#PricePerUnit').val();
-
-    if(ItemCode === '' || ItemName === '' || QtyOnHand === '' || PricePerUnit === '' ) {
-        // alert("Invalid inputs!");
-
-        Swal.fire({
-            title: 'Error!',
-            text: 'Invalid Inputs',
-            icon: 'error',
-            confirmButtonText: 'Ok'
-        })
-    } else {
-
-
-        let Item_data = new ItemModel(ItemCode,ItemName,QtyOnHand,PricePerUnit);
-
-        Item_db.push(Item_data);
-
-        console.log(Item_data);
-
-        loadItem();
-
-
-        Swal.fire({
-            title: "Added Successfully!",
-            icon: "success",
-            draggable: true
-        });
-        clearForm();
-
-    }
-});
-
-$("#item-tbody").on('click', 'tr', function(){
-    let idx = $(this).index();
-    console.log(idx);
-    let obj = Item_db[idx];
-    console.log(obj);
-
-    let ItemCode = obj.ItemCode;
-    let ItemName = obj.ItemName;
-    let QtyOnHand = obj.QtyOnHand;
-    let PricePerUnit = obj.PricePerUnit;
-
-    $("#ItemCode").val(ItemCode);
-    $("#ItemName").val(ItemName);
-    $("#QtyOnHand").val(QtyOnHand);
-    $("#PricePerUnit").val(PricePerUnit);
-});
-
-function clearForm() {
-    $('#ItemCode').val('');
-    $('#ItemName').val('');
-    $('#QtyOnHand').val('');
-    $('#PricePerUnit').val('');
-
+/*------------------- Regex Validation -------------------*/
+function validateInput(id, pattern) {
+    const $input = $(id);
+    const isValid = pattern.test($input.val().trim());
+    $input.toggleClass("input-error", !isValid);
+    return isValid;
 }
-$('#item_update').on('click', function () {
-    let ItemCode = $('#ItemCode').val();
-    let ItemName = $('#ItemName').val();
-    let QtyOnHand =$('#QtyOnHand').val();
-    let PricePerUnit = $('#PricePerUnit').val();
 
+function validateForm() {
+    const codeReg = /^I\d{3}$/; // Example: I001
+    const nameReg = /^[A-Za-z0-9 ]{2,}$/;
+    const qtyReg = /^\d+$/;
+    const priceReg = /^\d+(\.\d{1,2})?$/;
 
-    if (ItemCode === '' || ItemName === '' || QtyOnHand === '' || PricePerUnit === '' ) {
-        Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Select data to update!",
-        });
+    let valid = true;
+
+    valid = validateInput('#ItemCode', codeReg) && valid;
+    valid = validateInput('#ItemName', nameReg) && valid;
+    valid = validateInput('#QtyOnHand', qtyReg) && valid;
+    valid = validateInput('#PricePerUnit', priceReg) && valid;
+
+    return valid;
+}
+
+/*------------------- Save -------------------*/
+$('#item_save').on('click', function () {
+    if (!validateForm()) {
+        Swal.fire("Error!", "Fix red fields before saving.", "error");
         return;
     }
 
-    /*Find index of customer by ID*/
+    const ItemCode = $('#ItemCode').val().trim();
+    const ItemName = $('#ItemName').val().trim();
+    const QtyOnHand = $('#QtyOnHand').val().trim();
+    const PricePerUnit = $('#PricePerUnit').val().trim();
+
+    const Item_data = new ItemModel(ItemCode, ItemName, QtyOnHand, PricePerUnit);
+    Item_db.push(Item_data);
+    loadItem();
+    clearForm();
+
+    Swal.fire("Added!", "Item added successfully.", "success");
+});
+
+/*------------------- Click Row -------------------*/
+$("#item-tbody").on('click', 'tr', function () {
+    const idx = $(this).index();
+    const obj = Item_db[idx];
+
+    $("#ItemCode").val(obj.ItemCode);
+    $("#ItemName").val(obj.ItemName);
+    $("#QtyOnHand").val(obj.QtyOnHand);
+    $("#PricePerUnit").val(obj.PricePerUnit);
+});
+
+/*------------------- Update -------------------*/
+$('#item_update').on('click', function () {
+    if (!validateForm()) {
+        Swal.fire("Error!", "Fix red fields before updating.", "error");
+        return;
+    }
+
+    const ItemCode = $('#ItemCode').val().trim();
     const index = Item_db.findIndex(c => c.ItemCode === ItemCode);
 
     if (index !== -1) {
-        Item_db[index].ItemCode = ItemCode;
-        Item_db[index].ItemName = ItemName;
-        Item_db[index].QtyOnHand = QtyOnHand;
-        Item_db[index].PricePerUnit = PricePerUnit;
-
+        Item_db[index] = new ItemModel(
+            ItemCode,
+            $('#ItemName').val().trim(),
+            $('#QtyOnHand').val().trim(),
+            $('#PricePerUnit').val().trim()
+        );
         loadItem();
         clearForm();
 
-        Swal.fire({
-            title: "Updated Successfully!",
-            icon: "success",
-            draggable: true
-        });
+        Swal.fire("Updated!", "Item updated successfully.", "success");
     } else {
-        Swal.fire({
-            icon: "error",
-            title: "Not Found",
-            text: "Item with ID " + ItemCode+ " does not exist.",
-        });
+        Swal.fire("Not Found", `Item with ID ${ItemCode} does not exist.`, "error");
     }
 });
 
-// -------------------------Delete Item--------------------------
+/*------------------- Delete -------------------*/
 $('#item_delete').on('click', function () {
-    let ItemCode = $('#ItemCode').val();
-
+    const ItemCode = $('#ItemCode').val().trim();
     if (ItemCode === '') {
-        Swal.fire({
-            icon: "warning",
-            title: "No ID",
-            text: "Please select a Item to delete.",
-        });
+        Swal.fire("No ID", "Please select an item to delete.", "warning");
         return;
     }
 
     Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
+        title: "Delete?",
+        text: "This action cannot be undone.",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d33",
@@ -156,27 +117,27 @@ $('#item_delete').on('click', function () {
         if (result.isConfirmed) {
             const index = Item_db.findIndex(c => c.ItemCode === ItemCode);
             if (index !== -1) {
-                Item_db.splice(index, 1); // Remove from array
+                Item_db.splice(index, 1);
                 loadItem();
                 clearForm();
-                Swal.fire(
-                    "Deleted!",
-                    "Item has been deleted.",
-                    "success"
-                );
+                Swal.fire("Deleted!", "Item removed.", "success");
             } else {
-                Swal.fire({
-                    icon: "error",
-                    title: "Not Found",
-                    text: "Item with ID " +ItemCode + " does not exist.",
-                });
+                Swal.fire("Not Found", `Item with ID ${ItemCode} does not exist.`, "error");
             }
         }
     });
 });
 
-$('#item_reset').on('click',function () {
-    clearForm();
-})
+/*------------------- Reset -------------------*/
+$('#item_reset').on('click', clearForm);
 
+/*------------------- Clear Form -------------------*/
+function clearForm() {
+    $('#ItemCode, #ItemName, #QtyOnHand, #PricePerUnit').val('').removeClass("input-error");
+}
 
+/*------------------- Real-time Validation -------------------*/
+$('#ItemCode').on('input', () => validateInput('#ItemCode', /^I\d{3}$/));
+$('#ItemName').on('input', () => validateInput('#ItemName', /^[A-Za-z0-9 ]{2,}$/));
+$('#QtyOnHand').on('input', () => validateInput('#QtyOnHand', /^\d+$/));
+$('#PricePerUnit').on('input', () => validateInput('#PricePerUnit', /^\d+(\.\d{1,2})?$/));
